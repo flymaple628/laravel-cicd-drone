@@ -1,18 +1,32 @@
+---
 kind: pipeline
 name: default
 
-type: docker
+platform:
+  os: linux
+  arch: amd64
 
 steps:
-- name: Install dependencies
-  image: composer:2
+- name: frontend
+  pull: if-not-exists
+  image: node:8.1.2
   commands:
-    - composer install --ignore-platform-reqs
+  - node -v
+  - npm -v
+  - yarn --version
+  - yarn config set cache-folder .yarn-cache
+  - yarn install
+  - yarn run production
 
-- name: Run tests
-  image: php:8.0
+- name: backend
+  pull: if-not-exists
+  image: laradock/workspace:1.8-71
   commands:
-    - cp .env.example .env
-    - php artisan key:generate
-    - php artisan test
+  - php -v
+  - composer -V
+  - cp .env.example .env
+  - composer install --prefer-dist
+  - php artisan key:generate
+  - php artisan migrate
+  - ./vendor/bin/phpunit
 
