@@ -1,0 +1,18 @@
+kind: pipeline
+name: default
+
+type: docker
+
+steps:
+- name: Install dependencies
+  image: composer:2
+  commands:
+    - composer install --ignore-platform-reqs
+
+- name: Run tests
+  image: php:8.0
+  commands:
+    - cp .env.example .env
+    - php artisan key:generate
+    - php artisan test
+
