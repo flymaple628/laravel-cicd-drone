@@ -1,23 +1,23 @@
 ---
 kind: pipeline
 name: default
-type: kubernetes
+type: kubernetes # 需要依照不同的環境去設定
 
 platform:
   os: linux
   arch: amd64
 
 steps:
-- name: frontend
-  pull: if-not-exists
-  image: node:8.1.2
-  commands:
-  - node -v
-  - npm -v
-  - yarn --version
-  - yarn config set cache-folder .yarn-cache
-  - yarn install
-  - yarn run production
+# - name: frontend
+#   pull: if-not-exists
+#   image: node:8.1.2
+#   commands:
+#   - node -v
+#   - npm -v
+#   - yarn --version
+#   - yarn config set cache-folder .yarn-cache
+#   - yarn install
+#   - yarn run production
 
 - name: backend
   pull: if-not-exists
