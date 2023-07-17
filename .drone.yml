@@ -21,7 +21,7 @@ steps:
 
 - name: backend
   pull: if-not-exists
-  image: laradock/workspace:1.8-71
+  image: bitnami/laravel:latest
   commands:
   - php -v
   - composer -V
